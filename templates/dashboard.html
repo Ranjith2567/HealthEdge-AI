@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthEdge AI | Executive Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <div class="sidebar d-none d-md-block">
+        <h3 class="mb-5 text-info fw-bold">HealthEdge AI</h3>
+        <nav class="nav flex-column h-100">
+            <a class="nav-link text-white mb-3 active fw-bold" href="/dashboard">📊 Dashboard</a>
+            <a class="nav-link text-white mb-3" href="/analysis">⚗️ Patient Analysis</a>
+            <a class="nav-link text-white mb-3" href="/records">📁 Records</a>
+            <div class="mt-auto mb-5 text-center">
+                <a class="nav-link text-danger fw-bold border border-danger rounded" href="/logout">🚪 Sign Out</a>
+            </div>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <div class="container-fluid">
+            <h4 class="fw-bold mb-4 text-dark">Clinical Intelligence Overview</h4>
+            
+            <div class="row g-4 mb-4 text-center">
+                <div class="col-md-4">
+                    <div class="glass-card border-start border-primary border-5 shadow-sm">
+                        <h6 class="text-muted small fw-bold text-uppercase">Total Assessments</h6>
+                        <h1 class="fw-bold text-primary display-5">{{ total }}</h1>
+                        <p class="mb-0 small text-muted">Total data points</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="glass-card border-start border-danger border-5 shadow-sm">
+                        <h6 class="text-muted small fw-bold text-uppercase">Urgent (High Risk)</h6>
+                        <h1 class="fw-bold text-danger display-5">{{ urgent }}</h1>
+                        <p class="mb-0 small text-muted">Immediate attention</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="glass-card border-start border-success border-5 shadow-sm">
+                        <h6 class="text-muted small fw-bold text-uppercase">Stable (Normal)</h6>
+                        <h1 class="fw-bold text-success display-5">{{ stable }}</h1>
+                        <p class="mb-0 small text-muted">Low risk patients</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="glass-card bg-primary text-white p-4 mb-4 shadow-sm d-flex align-items-center justify-content-between">
+                        <div>
+                            <h3 class="fw-bold mb-1">Welcome back, Chief Admin! 👨‍⚕️</h3>
+                            <p class="mb-0 opacity-75">Our AI models are processing vitals in real-time.</p>
+                        </div>
+                        <a href="/analysis" class="btn btn-light btn-lg fw-bold text-primary shadow">RUN ANALYSIS →</a>
+                    </div>
+                </div>
+
+                <div class="col-lg-12">
+                    <div class="glass-card shadow-sm">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="fw-bold text-dark mb-0">Recent Activity (Top 5)</h5>
+                            <a href="/records" class="small text-primary text-decoration-none fw-bold">View Full History</a>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr class="small text-uppercase">
+                                        <th>Patient Name</th>
+                                        <th>Glucose</th>
+                                        <th>Risk %</th>
+                                        <th>Diagnostic Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for row in records[:5] %}
+                                    <tr>
+                                        <td class="fw-bold">{{ row.name }}</td>
+                                        <td>{{ row.glucose }} mg/dL</td>
+                                        <td class="text-primary fw-bold">{{ row.prob }}</td>
+                                        <td>
+                                            <span class="badge bg-{{ 'danger' if 'URGENT' in row.status.upper() else 'success' }}">
+                                                {{ row.status }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="4" class="text-center py-4 text-muted small">No patient data available yet.</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <footer class="dashboard-footer mt-5 pt-4 border-top text-center text-md-start">
+    <div class="row align-items-center">
+        <div class="col-md-6 mb-2 mb-md-0">
+            <p class="text-muted small mb-0">&copy; 2026 HealthEdge AI. All rights reserved for Clinical Use.</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+            <p class="text-muted small mb-0">
+                Designed & Developed by <span class="fw-bold text-primary">Ranjith</span> 🚀
+            </p>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

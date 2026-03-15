@@ -1,0 +1,240 @@
+:root {
+    --sidebar-bg: #1e293b;
+    --main-bg: #f8fafc;
+    --accent: #3b82f6;
+    --text-slate: #475569;
+    --success-green: #10b981;
+    --danger-red: #ef4444;
+}
+
+/* 1. Page Load Animation */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+body { 
+    font-family: 'Inter', sans-serif; 
+    background-color: var(--main-bg); 
+    overflow-x: hidden; 
+    margin: 0;
+}
+
+/* --- DASHBOARD STYLES --- */
+.sidebar {
+    height: 100vh;
+    width: 260px;
+    position: fixed;
+    background: var(--sidebar-bg);
+    color: white;
+    padding: 30px 20px;
+    box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
+
+.main-content { 
+    margin-left: 260px; 
+    padding: 40px; 
+}
+
+/* Professional Card Styling with Animation */
+.glass-card {
+    background: white;
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    padding: 35px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.glass-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+
+.btn-primary { 
+    background: var(--accent); 
+    border: none; 
+    padding: 14px; 
+    font-weight: 600; 
+    border-radius: 10px;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.form-control { 
+    border-radius: 10px; 
+    padding: 12px; 
+    border: 1.5px solid #e2e8f0; 
+    background-color: #f1f5f9;
+}
+
+/* Records Table Enhancement */
+.table {
+    border-collapse: separate;
+    border-spacing: 0 8px;
+}
+
+.table tr.patient-row {
+    background: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+
+/* Nav Link Polish */
+.nav-link {
+    border-radius: 10px;
+    padding: 12px 15px !important;
+    transition: all 0.3s;
+}
+
+.nav-link:hover { background: rgba(255, 255, 255, 0.1); }
+
+/* --- LOGIN PAGE STYLES (THE FIX) --- */
+/* Login page body center setup (assuming it doesn't have sidebar) */
+body:not(:has(.sidebar)) {
+    background: #1e293b; /* Dark theme to match the sidebar */
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+}
+
+/* Login card direct styling */
+body:not(:has(.sidebar)) .login-card {
+    width: 100%;
+    max-width: 400px;
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    animation: fadeInUp 0.8s ease-out;
+}
+
+/* --- PRINT LOGIC --- */
+@media print {
+    @page { size: A4 landscape; margin: 1cm; }
+    .sidebar, .btn, .d-print-none, .nav-link, button, .input-group, hr { display: none !important; }
+    .main-content { margin-left: 0 !important; padding: 0 !important; width: 100% !important; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    #report-area, #printable-report { visibility: visible !important; display: block !important; width: 100% !important; }
+}
+
+/* --- MOBILE RESPONSIVE FIX (SIDEBAR VISIBILITY UPDATED) --- */
+@media (max-width: 991px) {
+    /* Sidebar-ah mobile-la top-la fix panrom */
+    .sidebar {
+        width: 100% !important;
+        height: auto !important;
+        position: relative !important;
+        padding: 15px !important;
+        left: 0 !important;
+        display: block !important;
+    }
+
+    .sidebar h3 {
+        text-align: center;
+        font-size: 1.2rem;
+        margin-bottom: 10px !important;
+    }
+
+    .sidebar nav {
+        flex-direction: row !important;
+        justify-content: center !important;
+        gap: 5px !important;
+        display: flex !important;
+        flex-wrap: wrap !important;
+    }
+
+    .sidebar .nav-link {
+        margin-bottom: 5px !important;
+        padding: 8px 10px !important;
+        font-size: 0.75rem !important;
+        text-align: center;
+    }
+
+    /* Main Content-ah sidebar keela kondu varom */
+    .main-content {
+        margin-left: 0 !important;
+        padding: 15px !important;
+        width: 100% !important;
+    }
+
+    /* Dashboard Grid fix */
+    .row {
+        display: flex !important;
+        flex-direction: column !important;
+        margin: 0 !important;
+    }
+
+    /* Columns take full width */
+    div[class^="col-"] {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 0 0 100% !important;
+        padding: 5px 0 !important;
+    }
+
+    .glass-card {
+        padding: 20px !important;
+        margin-bottom: 15px !important;
+    }
+
+    .table-responsive {
+        border-radius: 10px;
+        overflow-x: auto;
+    }
+}
+
+/* --- FOOTER STYLES (SIDEBAR OVERLAP FIX) --- */
+.dashboard-footer {
+    padding: 20px 30px; /* Side-la gap sethuruken */
+    border-top: 1px solid #e2e8f0;
+    background-color: transparent;
+}
+
+.dashboard-footer .text-muted {
+    color: #64748b !important;
+}
+
+/* System (Desktop) View */
+@media (min-width: 992px) {
+    .dashboard-footer {
+        /* Footer-ah sidebar width (260px) thalli vaikka */
+        margin-left: 260px; 
+        width: calc(100% - 260px);
+    }
+    
+    /* Oruvela neenga main-content kulla potturuntha margin cancel aaga */
+    .main-content .dashboard-footer {
+        margin-left: 0;
+        width: 100%;
+    }
+    
+    .dashboard-footer .row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .dashboard-footer .text-md-start {
+        text-align: left !important;
+    }
+    .dashboard-footer .text-md-end {
+        text-align: right !important;
+    }
+}
+
+/* Mobile View */
+@media (max-width: 991px) {
+    .dashboard-footer {
+        margin-left: 0;
+        width: 100%;
+        text-align: center !important;
+        padding-bottom: 25px;
+    }
+    .dashboard-footer .text-md-end {
+        text-align: center !important;
+        margin-top: 10px;
+    }
+}
